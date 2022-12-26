@@ -1,5 +1,7 @@
-import MemberHome from './views/MemberHome.vue'
 import Login from './views/Login.vue'
+import MemberHome from './views/MemberHome.vue'
+import EditPassowrd from './views/EditPassowrd.vue'
+
 import { createRouter, createWebHistory } from "vue-router"
     
 const routeInfos = [
