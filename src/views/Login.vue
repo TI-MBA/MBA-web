@@ -47,7 +47,7 @@
       };
     },
     mounted() {
-      let userID = this.$localStorage.get('userid')
+      let userID = localStorage.getItem('userid')
   
       if (userID) {
         this.$router.push({ name: 'MemberHome'})
@@ -67,15 +67,14 @@
         }
       },
       executeLoginRequest() {
-        let localStorage = this.$localStorage
         axios.post('https://baque-alagoano.herokuapp.com/api/user/signin', {
           email: this.email,
           password: this.password        
         })
         .then((response) => {
           if (response.status >= 200 && response.status <= 299) {
-            localStorage.set('userid', response.data.id)
-            localStorage.set('userEmail', response.data.email)
+            localStorage.setItem('userid', response.data.id)
+            localStorage.setItem('userEmail', response.data.email)
             this.$router.push({ name: 'MemberHome'})
             this.isLoading(false)
           }        
