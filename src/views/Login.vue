@@ -45,6 +45,10 @@ export default {
     };
   },
   mounted() {
+    let testKey = localStorage.getItem('testKey')
+    console.log(testKey);
+    localStorage.removeItem('testKey')
+    console.log(testKey);
     // let userID = this.$localStorage.get('userid')
 
     // if (userID) {

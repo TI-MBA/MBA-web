@@ -15,6 +15,12 @@ export default {
         
     },
     created () {
+        let userId = localStorage.getItem('userID')
+
+        if (userId == null) {
+            this.$router.push('/login')
+        }
+        
     },
     mounted () {        
         window.scrollTo(0,0);
@@ -43,9 +49,7 @@ export default {
     methods: {
         financeTabDidPress() {
             this.financeTabClass = 'is-active'
-            this.frequencyTabClass = ''
-            console.log(this.$router);
-            this.$router.push('/login')
+            this.frequencyTabClass = ''            
         },
         frequencyTabDidPress() {
             this.financeTabClass = ''
