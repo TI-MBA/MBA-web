@@ -44,6 +44,8 @@ export default {
         financeTabDidPress() {
             this.financeTabClass = 'is-active'
             this.frequencyTabClass = ''
+            console.log(this.$router);
+            this.$router.push('/login')
         },
         frequencyTabDidPress() {
             this.financeTabClass = ''

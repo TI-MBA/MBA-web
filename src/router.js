@@ -1,5 +1,3 @@
-import { createApp } from 'vue'
-import App from './App.vue'
 import MemberHome from './views/MemberHome.vue'
 import Login from './views/Login.vue'
 import { createRouter, createWebHistory } from "vue-router"
@@ -7,10 +5,12 @@ import { createRouter, createWebHistory } from "vue-router"
 const routeInfos = [
     {
         path : "/login",
+        name: 'login',
         component : Login
     },
     {
         path : "/",
+        name: 'MemberHome',
         component : MemberHome
     }        
 ]
