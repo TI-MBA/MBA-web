@@ -80,12 +80,12 @@
           }        
         })
         .catch(err => {
-          if (err.response.status == 401) {
-            this.setError('Email ou Senha incorretos')
             this.isLoading(false)
-          } else {
-            this.setError('Erro ao realizar login')
-          }
+            if (err.response.status == 401) {
+                this.setError('Email ou Senha incorretos')
+            } else {
+                this.setError('Erro ao realizar login')
+            }
         });
       },
       isLoading(stateLoading) {
