@@ -57,8 +57,7 @@ export default {
         goToMemberHome() {
             if (this.userId != null) {
                 if (this.$route.name != 'MemberHome') {
-                    // this.$router.push({ name: 'MemberHome'});
-                    console.log("Member home");
+                    this.$router.push('/');
                 }
             } else {
                 this.logout()
@@ -67,8 +66,7 @@ export default {
         goToEditPassword() {
             if (this.userId != null) {
                 if (this.$route.name != 'EditPassword') {
-                    // this.$router.push({ name: 'EditPassword'});
-                    console.log("go to edit payment");
+                    this.$router.push('/editPassowrd');
                 }
             } else {
                 this.logout()
