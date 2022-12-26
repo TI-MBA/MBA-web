@@ -1,26 +1,39 @@
 <template>
     <div>
+        <Navbar :addPayment="isAdmin" />
+
+        <MemberInfo />
+         
+         <hr>
          <div class="tabs is-large is-fullwidth">
             <ul>
                 <li v-bind:class="financeTabClass"><a @click="financeTabDidPress">Financeiro</a></li>
                 <li v-bind:class="frequencyTabClass"><a @click="frequencyTabDidPress">Frequência</a></li>
             </ul>
         </div>
+
+        <MemberPresence v-bind:class="memberPresenceVisibility"/>
+        <MemberFinance v-bind:class="memberFinanceVisibility" />
     </div>    
 </template>
 
 <script>
+import Navbar from '../components/Navbar.vue'
+import MemberInfo from '../components/MemberInfo.vue'
+import MemberPresence from '../components/MemberPresence.vue'
+import MemberFinance from '../components/MemberFinance.vue'
+
 export default {
     components: { 
-        
+        Navbar,
+        MemberInfo,
+        MemberPresence,
+        MemberFinance
     },
     created () {
-        let userId = localStorage.getItem('userid')
-
-        if (userId == null) {
-            this.$router.push('/login')
+        if (!localStorage.getItem('userid')) { 
+            this.$router.push({ name: 'Login'} ); 
         }
-        
     },
     mounted () {        
         window.scrollTo(0,0);
@@ -49,7 +62,7 @@ export default {
     methods: {
         financeTabDidPress() {
             this.financeTabClass = 'is-active'
-            this.frequencyTabClass = ''            
+            this.frequencyTabClass = ''
         },
         frequencyTabDidPress() {
             this.financeTabClass = ''

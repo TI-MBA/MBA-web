@@ -12,7 +12,12 @@ const routeInfos = [
         path : "/",
         name: 'MemberHome',
         component : MemberHome
-    }        
+    },
+    {
+        path: '/editPassowrd',
+        name: 'EditPassword',
+        component: EditPassowrd
+    }
 ]
 
 const router = createRouter({
