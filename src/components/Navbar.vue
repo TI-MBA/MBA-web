@@ -74,7 +74,6 @@ export default {
         },
         addPaymentAction() {
             if (this.userId != null) {
-                // this.$router.push({ name: 'AddPayment'});
                 console.log("go to add payment");
             } else {
                 this.logout()

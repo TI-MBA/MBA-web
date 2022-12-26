@@ -106,7 +106,7 @@
             console.log(this.selectedPayment)
         },
         editDidPress(payment) {
-            this.$router.push({ name: 'EditPayment', params: { paymentId: payment.id }});
+            console.log(payment);
         },
         deleteDidPress(payment) {
             this.selectedPayment = payment

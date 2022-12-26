@@ -32,7 +32,7 @@ export default {
     },
     created () {
         if (!localStorage.getItem('userid')) { 
-            this.$router.push({ name: 'Login'} ); 
+            this.$router.push('/login'); 
         }
     },
     mounted () {        
