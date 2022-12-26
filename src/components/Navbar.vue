@@ -37,7 +37,6 @@ export default {
         }
     },
     created () {
-        this.userId = this.$localStorage.get('userid')
     },
     methods: {
         toggleBurgerMenu() {

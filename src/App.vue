@@ -3,13 +3,11 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 import LoginVue from './views/Login.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld,
     LoginVue
   }
 }
