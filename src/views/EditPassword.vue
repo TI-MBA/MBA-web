@@ -46,13 +46,13 @@
         },
         created () {            
             if (!this.userId) {
-                this.$router.push({ name: 'Login'} );
+                this.$router.push('/login');
             }
         },
         data() {
             return {
-                userId: this.$localStorage.get('userid'),
-                email: this.$localStorage.get('userEmail'),
+                userId: localStorage.getItem('userid'),
+                email: localStorage.getItem('userEmail'),
                 currentPassword: '',
                 newPassword: '',
                 repeatNewPassword: '',
@@ -74,7 +74,7 @@
                 }                
             },
             fetchEditPassword() {
-                axios.put('https://baque-alagoano.herokuapp.com/api/user/changePassword', {
+                axios.put('https://mba-api.herokuapp.com/api/user/changePassword', {
                     email: this.email,
                     password: this.currentPassword,
                     newPassword: this.newPassword
