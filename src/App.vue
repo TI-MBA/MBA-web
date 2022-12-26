@@ -1,15 +1,16 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="ESSE VAI SER O PROJETO DO BAQUE"/>
+  <LoginVue/>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
+import LoginVue from './views/Login.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    HelloWorld,
+    LoginVue
   }
 }
 </script>
