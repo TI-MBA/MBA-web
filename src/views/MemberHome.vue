@@ -15,7 +15,7 @@ export default {
         
     },
     created () {
-        let userId = localStorage.getItem('userID')
+        let userId = localStorage.getItem('userid')
 
         if (userId == null) {
             this.$router.push('/login')
