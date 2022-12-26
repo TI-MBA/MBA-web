@@ -67,7 +67,7 @@
         }
       },
       executeLoginRequest() {
-        axios.post('https://baque-alagoano.herokuapp.com/api/user/signin', {
+        axios.post('https://mba-api.herokuapp.com/api/user/signin', {
           email: this.email,
           password: this.password        
         })
