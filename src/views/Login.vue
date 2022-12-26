@@ -30,85 +30,81 @@
         </div>
       </div>
     </div>
-</template>
-
-<script>
-export default {  
-  data() {
-    return {
-      email: "",
-      password: "",
-      progressVisibility: 'is-hidden',
-      errorMessageVisibility: 'is-hidden',
-      buttonLoading: '',
-      errorMessage: ''
-    };
-  },
-  mounted() {
-    let testKey = localStorage.getItem('testKey')
-    console.log(testKey);
-    localStorage.removeItem('testKey')
-    console.log(testKey);
-    // let userID = this.$localStorage.get('userid')
-
-    // if (userID) {
-    //   this.$router.push({ name: 'MemberHome'})
-    // }
-  },
-  computed: {},
-  methods: {
-    login() {
-        console.log("login");
-    //   this.isLoading(true)
-    //   this.clearErrors()
-    //   if (this.email == "" || this.password == "") {
-    //     this.setError('Email e Senha devem ser preenchidos')
-    //     this.isLoading(false)
-    //     return
-    //   } else {
-    //     this.executeLoginRequest()
-    //   }
+  </template>
+  
+  <script>
+  import axios from 'axios'
+  
+  export default {  
+    data() {
+      return {
+        email: "",
+        password: "",
+        progressVisibility: 'is-hidden',
+        errorMessageVisibility: 'is-hidden',
+        buttonLoading: '',
+        errorMessage: ''
+      };
     },
-    executeLoginRequest() {
-        console.log("Execute login");
-    //   let localStorage = this.$localStorage
-    //   axios.post('https://baque-alagoano.herokuapp.com/api/user/signin', {
-    //     email: this.email,
-    //     password: this.password        
-    //   })
-    //   .then((response) => {
-    //     if (response.status >= 200 && response.status <= 299) {
-    //       localStorage.set('userid', response.data.id)
-    //       localStorage.set('userEmail', response.data.email)
-    //       this.$router.push({ name: 'MemberHome'})
-    //       this.isLoading(false)
-    //     }        
-    //   })
-    //   .catch(err => {
-    //     if (err.response.status == 401) {
-    //       this.setError('Email ou Senha incorretos')
-    //       this.isLoading(false)
-    //     } else {
-    //       this.setError('Erro ao realizar login')
-    //     }
-    //   });
-    },
-    isLoading(stateLoading) {
-      if (stateLoading) {
-        this.progressVisibility = ''
-        this.buttonLoading = 'is-loading'
-      } else {
-        this.progressVisibility = 'is-hidden'
-        this.buttonLoading = ''
+    mounted() {
+      let userID = this.$localStorage.get('userid')
+  
+      if (userID) {
+        this.$router.push({ name: 'MemberHome'})
       }
     },
-    clearErrors() {
-      this.errorMessageVisibility = 'is-hidden'
-    },
-    setError(message) {
-      this.errorMessage = message
-      this.errorMessageVisibility = ''
+    computed: {},
+    methods: {
+      login() {
+        this.isLoading(true)
+        this.clearErrors()
+        if (this.email == "" || this.password == "") {
+          this.setError('Email e Senha devem ser preenchidos')
+          this.isLoading(false)
+          return
+        } else {
+          this.executeLoginRequest()
+        }
+      },
+      executeLoginRequest() {
+        let localStorage = this.$localStorage
+        axios.post('https://baque-alagoano.herokuapp.com/api/user/signin', {
+          email: this.email,
+          password: this.password        
+        })
+        .then((response) => {
+          if (response.status >= 200 && response.status <= 299) {
+            localStorage.set('userid', response.data.id)
+            localStorage.set('userEmail', response.data.email)
+            this.$router.push({ name: 'MemberHome'})
+            this.isLoading(false)
+          }        
+        })
+        .catch(err => {
+          if (err.response.status == 401) {
+            this.setError('Email ou Senha incorretos')
+            this.isLoading(false)
+          } else {
+            this.setError('Erro ao realizar login')
+          }
+        });
+      },
+      isLoading(stateLoading) {
+        if (stateLoading) {
+          this.progressVisibility = ''
+          this.buttonLoading = 'is-loading'
+        } else {
+          this.progressVisibility = 'is-hidden'
+          this.buttonLoading = ''
+        }
+      },
+      clearErrors() {
+        this.errorMessageVisibility = 'is-hidden'
+      },
+      setError(message) {
+        this.errorMessage = message
+        this.errorMessageVisibility = ''
+      }
     }
   }
-}
-</script>
+  </script>
