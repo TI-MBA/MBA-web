@@ -72,20 +72,22 @@
           password: this.password        
         })
         .then((response) => {
+            console.log(response);
           if (response.status >= 200 && response.status <= 299) {
-            localStorage.setItem('userid', response.data.id)
+            localStorage.setItem('userID', response.data.id)
             localStorage.setItem('userEmail', response.data.email)
-            this.$router.push({ name: 'MemberHome'})
+            this.$router.push('/')
             this.isLoading(false)
           }        
         })
         .catch(err => {
             this.isLoading(false)
-            if (err.response.status == 401) {
-                this.setError('Email ou Senha incorretos')
-            } else {
-                this.setError('Erro ao realizar login')
-            }
+            console.log(err);
+            // if (err.response.status == 401) {
+            //     this.setError('Email ou Senha incorretos')
+            // } else {
+            //     this.setError('Erro ao realizar login')
+            // }
         });
       },
       isLoading(stateLoading) {
