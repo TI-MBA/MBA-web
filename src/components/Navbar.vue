@@ -18,6 +18,11 @@
 
         <div class="navbar-menu" id="nav-links">
             <div class="navbar-end">
+                <div class="navbar-item" v-bind:class="adminAddPaymentClass">
+                    <a class="button is-info is-outlined" @click="addPaymentAction">
+                        Adicionar pagamento
+                    </a>
+                </div>
                 <div class="navbar-item">
                     <a class="button is-danger is-outlined" @click="logout">
                         Logout
@@ -31,12 +36,16 @@
 <script>
 
 export default {
+    props: {
+        addPayment: Boolean
+    },
     Data() {
         return {
             userId: null
         }
     },
     created () {
+        this.userId = localStorage.getItem('userid')
     },
     methods: {
         toggleBurgerMenu() {
@@ -46,13 +55,36 @@ export default {
             .toggle('is-active')
         },
         goToMemberHome() {
-            console.log("To member home");
+            if (this.userId != null) {
+                if (this.$route.name != 'MemberHome') {
+                    // this.$router.push({ name: 'MemberHome'});
+                    console.log("Member home");
+                }
+            } else {
+                this.logout()
+            }
         },
         goToEditPassword() {
-            console.log("To edit password");
+            if (this.userId != null) {
+                if (this.$route.name != 'EditPassword') {
+                    // this.$router.push({ name: 'EditPassword'});
+                    console.log("go to edit payment");
+                }
+            } else {
+                this.logout()
+            }
+        },
+        addPaymentAction() {
+            if (this.userId != null) {
+                // this.$router.push({ name: 'AddPayment'});
+                console.log("go to add payment");
+            } else {
+                this.logout()
+            }
         },
         logout() {
-            console.log("to logout");
+            localStorage.removeItem('userid')
+            this.$router.push('/login');
       }
     },
     computed: {

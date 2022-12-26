@@ -47,11 +47,11 @@
       };
     },
     mounted() {
-      let userID = localStorage.getItem('userid')
-  
-      if (userID) {
-        this.$router.push({ name: 'MemberHome'})
-      }
+        let userID = localStorage.getItem('userid')
+
+        if (userID) {
+            this.$router.push('/')
+        }
     },
     computed: {},
     methods: {
@@ -67,7 +67,7 @@
         }
       },
       executeLoginRequest() {
-        axios.post('https://baque-alagoano.herokuapp.com/api/user/signin', {
+        axios.post('https://mba-api.herokuapp.com/api/user/signin', {
           email: this.email,
           password: this.password        
         })
@@ -80,12 +80,12 @@
           }        
         })
         .catch(err => {
-          if (err.response.status == 401) {
-            this.setError('Email ou Senha incorretos')
             this.isLoading(false)
-          } else {
-            this.setError('Erro ao realizar login')
-          }
+            if (err.response.status == 401) {
+                this.setError('Email ou Senha incorretos')
+            } else {
+                this.setError('Erro ao realizar login')
+            }
         });
       },
       isLoading(stateLoading) {
