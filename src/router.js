@@ -1,6 +1,6 @@
 import Login from './views/Login.vue'
 import MemberHome from './views/MemberHome.vue'
-import EditPassowrd from './views/EditPassowrd.vue'
+import EditPassword from './views/EditPassword.vue'
 
 import { createRouter, createWebHistory } from "vue-router"
     
@@ -18,7 +18,7 @@ const routeInfos = [
     {
         path: '/editPassowrd',
         name: 'EditPassword',
-        component: EditPassowrd
+        component: EditPassword
     }
 ]
 
