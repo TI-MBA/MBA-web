@@ -22,6 +22,7 @@
  
  <script>
  import axios from 'axios'
+ import moment from 'moment'
  
  export default {
      data() {
@@ -63,8 +64,7 @@
              return resultIcon == null ? 'https://cdn-icons-png.flaticon.com/512/953/953738.png' : resultIcon
          },
          presenceDateText(dateString) {
-             const rehearsalDate = new Date(dateString);
-             return rehearsalDate.getDate() + "/" + (rehearsalDate.getUTCMonth() + 1) + "/" + rehearsalDate.getUTCFullYear()
+             return moment(dateString, 'YYYY-MM-DDTHH:mm:ss.SSSS').format("DD/MM/YYYY")
          }
      }
  }

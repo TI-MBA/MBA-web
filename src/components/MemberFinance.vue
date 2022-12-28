@@ -2,7 +2,7 @@
     <div class="content">
         <div class="container padding-horizontal">
             <div v-for="payment in paymentList " :key="payment.id">
-                     <PaymentCard :payment="payment" />
+                <PaymentCard :payment="payment" />
             </div>
         </div>
         <br/>
