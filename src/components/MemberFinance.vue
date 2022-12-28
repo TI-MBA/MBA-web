@@ -6,7 +6,6 @@
                     <th>Data referência</th>
                     <th>valor</th>
                     <th>observações</th>
-                    <th v-bind:class="adminVisibility">Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -14,33 +13,19 @@
                     <td class="is-vcentered">{{ paymentDateText(payment.date) }}</td>
                     <td class="is-vcentered">{{ "R$ " + (payment.paymentValue).toFixed(2) }}</td>
                     <td class="is-vcentered width-limit"> {{ payment.observation }} </td>
-                    <td class="is-vcentered" v-bind:class="adminVisibility">
-                        <button class="button is-small is-outlined is-info m-1" @click="editDidPress(payment)"> Editar </button>
-                        <button class="button is-small is-outlined is-danger m-1" @click="deleteDidPress(payment)"> Deletar </button>
-                    </td>
                 </tr>
             </tbody>
         </table>
         <br/>
         <progress class="progress is-small is-info" max="100" v-bind:class="progressVisibility">50%</progress>
-        
-        <ConfimationModal :show="showDialog"                        
-            title="Delete a task?"        
-            :cancelAction="cancelDialog"        
-            :deleteAction="confirmDelete"        
-            :paymentModel="this.selectedPayment"        
-            description="Are you sure you want to delete this task?"        
-            v-bind:class="displayDialog"/>    
-    </div> 
+    </div>
  </template>
  
  <script>
  import axios from 'axios'
- import ConfimationModal from './modal/ConfirmationModal.vue'
  
  export default {
     components: {
-        ConfimationModal
     },
     created () {
         if (this.userId) {
@@ -58,23 +43,7 @@
             progressVisibility: 'is-hidden'
         }
     },    
-    computed: {
-        adminVisibility: function() {
-            return this.isAdmin ?
-            '' 
-            : 
-            'is-hidden'
-        },
-        hideDialog: function() {
-            return ''
-        },
-        displayDialog: function() {
-            return this.showDialog ?
-            'is-active' 
-            : 
-            ''
-        }
-    }, 
+    computed: {},
     methods: {        
         fetchPayments() {            
             axios.get('https://mba-api.herokuapp.com/api/payment/user/' + this.userId)
@@ -97,20 +66,6 @@
         presenceDateText(dateString) {
             const rehearsalDate = new Date(dateString);
             return rehearsalDate.getDate() + "/" + (rehearsalDate.getUTCMonth() + 1) + "/" + rehearsalDate.getUTCFullYear()
-        },
-        cancelDialog() {
-            this.showDialog = false
-            this.selectedPayment = {}
-        },
-        confirmDelete() {
-            console.log(this.selectedPayment)
-        },
-        editDidPress(payment) {
-            console.log(payment);
-        },
-        deleteDidPress(payment) {
-            this.selectedPayment = payment
-            this.showDialog = true
         },
         paymentDateText(dateString) {
             const paymentDate = new Date(dateString);
