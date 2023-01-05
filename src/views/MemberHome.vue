@@ -3,7 +3,6 @@
         <Navbar :addPayment="isAdmin" />
 
         <MemberInfo />
-         
          <hr>
          <div class="tabs is-large is-fullwidth">
             <ul>

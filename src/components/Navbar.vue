@@ -8,6 +8,9 @@
             <a class="navbar-item" @click="goToEditPassword">
                 <h2 id="name"> Editar senha </h2>
             </a>
+            <a class="navbar-item" @click="goToInfoPage">
+                <h2 id="name"> Cartilha </h2>
+            </a>
 
             <a class="navbar-burger" @click="toggleBurgerMenu">
             <span></span>
@@ -67,6 +70,15 @@ export default {
             if (this.userId != null) {
                 if (this.$route.name != 'EditPassword') {
                     this.$router.push('/editPassowrd');
+                }
+            } else {
+                this.logout()
+            }
+        },
+        goToInfoPage() {
+            if (this.userId != null) {
+                if (this.$route.name != 'Info') {
+                    this.$router.push('/info');
                 }
             } else {
                 this.logout()
