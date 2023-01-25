@@ -50,7 +50,7 @@
          },
          order(presenceList) {
              return presenceList.sort(function(a,b){
-                 return new Date(b.rehearsalDate) - new Date(a.rehearsalDate);
+                 return new Date(a.rehearsalDate) - new Date(b.rehearsalDate);
              });
          },
          presenceTypeIcon(type) {
