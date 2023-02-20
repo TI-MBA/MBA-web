@@ -16,7 +16,7 @@
                      </td>    
                  </tr>
              </tbody>
-         </table>            
+         </table>
      </div>   
  </template>
  
@@ -40,17 +40,12 @@
          fetchPresence() {
              axios.get('https://mba-api.herokuapp.com/api/presence/user/' + this.userId)
              .then((response) => {
-                 this.presenceList = this.order(response.data)
+                this.presenceList = response.data
              })
              .catch(err => {
                  if (err.response) {
                      console.log(err.response.status);
                  }
-             });
-         },
-         order(presenceList) {
-             return presenceList.sort(function(a,b){
-                 return new Date(a.rehearsalDate) - new Date(b.rehearsalDate);
              });
          },
          presenceTypeIcon(type) {

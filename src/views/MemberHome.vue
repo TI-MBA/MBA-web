@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Navbar :addPayment="isAdmin" />
+        <Navbar/>
 
         <MemberInfo />
          <hr>
@@ -32,6 +32,8 @@ export default {
     created () {
         if (!localStorage.getItem('userid')) { 
             this.$router.push('/login'); 
+        } else if (localStorage.getItem('user_type') == 1 || localStorage.getItem('user_type') == 4) {
+            this.$router.push('/presence-info');
         }
     },
     mounted () {        
@@ -39,7 +41,6 @@ export default {
     },    
     data() {
         return {
-            isAdmin: false,
             financeTabClass: 'is-active',
             frequencyTabClass: ''
         }

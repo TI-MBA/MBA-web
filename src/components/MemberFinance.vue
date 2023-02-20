@@ -27,7 +27,6 @@
     data() {
         return {
             userId: localStorage.getItem('userid'),
-            isAdmin: false,
             showDialog: false,
             selectedPayment: {},
             paymentList: [],

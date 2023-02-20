@@ -2,6 +2,7 @@ import Login from './views/Login.vue'
 import MemberHome from './views/MemberHome.vue'
 import EditPassword from './views/EditPassword.vue'
 import InfoPage from './views/InfoPage.vue'
+import PresenceInfoPage from './views/MasteryPresenceInfo.vue'
 
 import { createRouter, createWebHistory } from "vue-router"
     
@@ -25,6 +26,11 @@ const routeInfos = [
         path: '/info',
         name: 'Info',
         component: InfoPage
+    },
+    {
+        path: '/presence-info',
+        name: 'PresenceInfo',
+        component: PresenceInfoPage
     }
 ]
 

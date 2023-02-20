@@ -11,7 +11,7 @@
               <form @submit.prevent="login">
                 <div class="field">
                   <div class="control">
-                   <input class="input is-large" v-model="email" type="email" placeholder="Email" autofocus="">
+                   <input class="input is-large" v-model="email" placeholder="Email" autofocus="">
                   </div>
                 </div>
   
@@ -40,6 +40,7 @@
       return {
         email: "",
         password: "",
+        user_type: 0,
         progressVisibility: 'is-hidden',
         errorMessageVisibility: 'is-hidden',
         buttonLoading: '',
@@ -48,9 +49,13 @@
     },
     mounted() {
         let userID = localStorage.getItem('userid')
-
+        let userType = localStorage.getItem('user_type')
         if (userID) {
+          if (userType == 1 || userType == 4) { 
+            this.$router.push('/presence-info')
+          } else {
             this.$router.push('/')
+          }
         }
     },
     computed: {},
@@ -73,10 +78,21 @@
         })
         .then((response) => {
           if (response.status >= 200 && response.status <= 299) {
+            this.isLoading(false)
+            let route = ''
+            if (response.data.adminLevel == 0){
+              route = '/'
+            } else if (response.data.adminLevel == 1 || response.data.adminLevel == 4) {              
+              route = '/presence-info'
+            } else {
+              this.setError('Página em construção')
+              return
+            }
+
             localStorage.setItem('userid', response.data.id)
             localStorage.setItem('userEmail', response.data.email)
-            this.$router.push('/')
-            this.isLoading(false)
+            localStorage.setItem('user_type', response.data.adminLevel)
+            this.$router.push(route)
           }        
         })
         .catch(err => {
