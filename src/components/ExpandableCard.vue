@@ -33,7 +33,8 @@
 export default {
     props: {
         title: String,
-        memberList: Array
+        memberList: Array,
+        requiredRehearsalCount: Number
     },
     data() {
         return {
@@ -53,12 +54,16 @@ export default {
             }            
         },
         presenceText(member) {
-            if (member.missingRehearsal == 0) {
+            let missingRehearsals = this.requiredRehearsalCount - member.presenceCount
+
+            if (member.presenceCount >= this.requiredRehearsalCount) {
                 return 'Apto'
-            } else if (member.missingRehearsal == 1) {
-                return 'Falta ' + member.missingRehearsal + ' ensaio'
+            } else if (missingRehearsals == 1) {
+                return 'Falta ' + missingRehearsals + ' ensaio'
+            } else if(missingRehearsals > 1) {
+                return 'Faltam ' + missingRehearsals + ' ensaios'
             } else {
-                return 'Faltam ' + member.missingRehearsal + ' ensaios'
+                return 'Apto*'
             }
         },
         observationText(member) {
@@ -71,7 +76,7 @@ export default {
             }
         },
         orderMemberList() {
-            return this.memberList.sort((a, b) => {  return a.missingRehearsal - b.missingRehearsal})
+            return this.memberList.sort((a, b) => {  return b.presenceCount - a.presenceCount})
         }
     }
 }

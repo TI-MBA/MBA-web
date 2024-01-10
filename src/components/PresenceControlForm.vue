@@ -31,22 +31,24 @@
             <progress class="progress is-small is-info" max="100" v-bind:class="progressVisibility">50%</progress>
 
             <div v-bind:class="resultVisibility">
-                <p class="has-text-left has-text-weight-medium is-size-5">{{ 'Número total de ensaios: ' + this.totalRehearsalCount}}</p>
+                <p class="has-text-left has-text-weight-medium is-size-5">{{ 'Número de total de ensaios: ' + this.totalRehearsalCount}}</p>
+                <p class="has-text-left has-text-weight-medium is-size-15 pl-4">{{ 'Não leva em conta possíveis feriados, cancelamentos e ensaios extras.'}}</p>
                 <p class="has-text-left has-text-weight-medium is-size-5">{{ 'Número de ensaios necessários: ' + this.requiredRehearsalCount}}</p>
+                <p class="has-text-left has-text-weight-medium is-size-5">{{ 'Número de ensaios realizados: ' + this.totalExistingRehearsalCount}}</p>
                 <br/>
-                <ExpandableCard :title="maestryCardTitle" :memberList="maestryMembers"/>
+                <ExpandableCard :title="maestryCardTitle" :memberList="maestryMembers" :requiredRehearsalCount="this.requiredRehearsalCount"/>
                 <br/>
-                <ExpandableCard :title="cantoCardTitle" :memberList="cantoMembers"/>
+                <ExpandableCard :title="cantoCardTitle" :memberList="cantoMembers" :requiredRehearsalCount="this.requiredRehearsalCount"/>
                 <br/>
-                <ExpandableCard :title="agbeCardTitle" :memberList="agbeMembers"/>
+                <ExpandableCard :title="agbeCardTitle" :memberList="agbeMembers" :requiredRehearsalCount="this.requiredRehearsalCount"/>
                 <br/>
-                <ExpandableCard :title="agogoCardTitle" :memberList="agogoMembers"/>
+                <ExpandableCard :title="agogoCardTitle" :memberList="agogoMembers" :requiredRehearsalCount="this.requiredRehearsalCount"/>
                 <br/>
-                <ExpandableCard :title="gongueCardTitle" :memberList="gongueMembers"/>
+                <ExpandableCard :title="gongueCardTitle" :memberList="gongueMembers" :requiredRehearsalCount="this.requiredRehearsalCount"/>
                 <br/>
-                <ExpandableCard :title="caixaCardTitle" :memberList="caixaMembers"/>
+                <ExpandableCard :title="caixaCardTitle" :memberList="caixaMembers" :requiredRehearsalCount="this.requiredRehearsalCount"/>
                 <br/>
-                <ExpandableCard :title="alfaiaCardTitle" :memberList="alfaiaMembers"/>
+                <ExpandableCard :title="alfaiaCardTitle" :memberList="alfaiaMembers" :requiredRehearsalCount="this.requiredRehearsalCount"/>
             </div>
         </div>
     </div>
@@ -89,6 +91,7 @@
                 gongueCardTitle: 'Gonguê',
                 caixaCardTitle: 'Caixa',
                 alfaiaCardTitle: 'Alfaia',
+                totalExistingRehearsalCount: 0,
                 totalRehearsalCount: 0,
                 requiredRehearsalCount: 0,
                 cantoMembers: [],
@@ -109,11 +112,15 @@
                 axios.get('https://mba-api.herokuapp.com/api/rehearsal-info/rehearsal-presence-count', 
                 { params: { initialDate: this.toRequest(this.startDate), finalDate: this.toRequest(this.endDate), percentage: this.percentageValue } })
                 .then((response) => {
-                    this.membersResult = response.data.userCountDtos.filter(member => !member.name.toLowerCase().includes("admin"))
-                    this.totalRehearsalCount = response.data.totalRehearsalCount
-                    this.requiredRehearsalCount = response.data.requiredRehearsalCount
-                    this.setupView()
-                    this.isLoading(false)
+                    this.membersResult = response.data.userCountDtos.filter(function (member) {
+                        return !member.name.toLowerCase().includes("admin")
+                        && !member.name.toLowerCase().includes("deletado")
+                    });
+                    console.log(response.data.userCountDtos)
+                    this.totalExistingRehearsalCount = response.data.totalRehearsalCount;
+                    this.setupView();
+                    this.setupTotalRehearsalCount();
+                    this.isLoading(false);
                 })
                 .catch(err => {
                     if (err.response) {
@@ -131,6 +138,25 @@
             setupView() {
                 this.setupLists()
                 this.setupCardTitles()
+            },
+            setupTotalRehearsalCount() {
+                this.totalRehearsalCount = 0
+
+                let totalDays = moment(this.endDate).diff(moment(this.startDate), "days");
+                var currentDate = this.startDate;
+
+                for (let i = 0; i < totalDays; i++) {
+                    let stringDay = moment(currentDate).format('dddd');
+
+                    if (stringDay == "Saturday") {
+                        this.totalRehearsalCount += 1
+                    }
+
+                    currentDate = moment(currentDate).add(1, 'days')
+                }
+
+                let percentageNumber = parseInt(this.percentageValue)/100
+                this.requiredRehearsalCount = parseInt(this.totalRehearsalCount * percentageNumber)
             },
             setupLists() {
                 this.maestryMembers = this.filterBy('MAESTRIA')
