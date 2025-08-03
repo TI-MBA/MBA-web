@@ -78,7 +78,7 @@ export default {
       this.$router.push("/presence-info");
     },
     addPaymentAction() {
-      console.log("go to add payment");
+      console.log("go to add payment what will be implemented");
     },
     logout() {
       localStorage.removeItem("userid");
