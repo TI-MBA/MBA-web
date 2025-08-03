@@ -1,53 +1,47 @@
 <template>
-    <div>
-        <Navbar/>
-        <PresenceControlForm />
-
-    </div>    
+  <div>
+    <Navbar />
+    <PresenceControlForm />
+  </div>
 </template>
 
 <script>
-import Navbar from '../components/Navbar.vue'
-import PresenceControlForm from '../components/PresenceControlForm.vue'
+import Navbar from "../components/Navbar.vue";
+import PresenceControlForm from "../components/PresenceControlForm.vue";
 
 export default {
-    components: { 
-        Navbar,
-        PresenceControlForm
-    },
-    created () {
-        if (!localStorage.getItem('userid')) { 
-            this.$router.push('/login'); 
-        }
-    },
-    mounted () {        
-        window.scrollTo(0,0);
-    },    
-    data() {
-        return {
-            
-        }
-    }
-}
+  components: {
+    Navbar,
+    PresenceControlForm,
+  },
+  created() {},
+  mounted() {
+    window.scrollTo(0, 0);
+  },
+  data() {
+    return {};
+  },
+};
 </script>
 
 <style>
-.table.is-borderless td, .table.is-borderless th {
- border: 0;
+.table.is-borderless td,
+.table.is-borderless th {
+  border: 0;
 }
 .center {
-    margin-left: auto;
-    margin-right: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 .ml-4 {
-    margin: 0rem;
-    padding: 1rem;
+  margin: 0rem;
+  padding: 1rem;
 }
 hr {
-    margin: 0rem;
+  margin: 0rem;
 }
 .width-limit {
-    word-wrap: break-word;
-    max-width: 100px;
+  word-wrap: break-word;
+  max-width: 100px;
 }
 </style>
