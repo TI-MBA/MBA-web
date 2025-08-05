@@ -73,13 +73,8 @@ export default {
   },
   mounted() {
     let userID = localStorage.getItem("userid");
-    let userType = localStorage.getItem("user_type");
     if (userID) {
-      if (userType == 1 || userType == 4) {
-        this.$router.push("/presence-info");
-      } else {
-        this.$router.push("/");
-      }
+      this.$router.push("/");
     }
   },
   computed: {},
@@ -104,23 +99,10 @@ export default {
         .then((response) => {
           if (response.status >= 200 && response.status <= 299) {
             this.isLoading(false);
-            let route = "";
-            if (response.data.adminLevel == 0) {
-              route = "/";
-            } else if (
-              response.data.adminLevel == 1 ||
-              response.data.adminLevel == 4
-            ) {
-              route = "/presence-info";
-            } else {
-              this.setError("Página em construção");
-              return;
-            }
-
             localStorage.setItem("userid", response.data.id);
             localStorage.setItem("userEmail", response.data.email);
             localStorage.setItem("user_type", response.data.adminLevel);
-            this.$router.push(route);
+            this.$router.push("/");
           }
         })
         .catch((err) => {
