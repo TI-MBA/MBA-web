@@ -21,8 +21,14 @@
 import { userService } from "../services/ApiService";
 
 export default {
+  props: {
+    userId: {
+      type: String,
+      default: null, // optional prop
+    },
+  },
   created() {
-    if (this.userId) {
+    if (this.effectiveUserId) {
       this.fetchData();
     }
   },
@@ -34,10 +40,12 @@ export default {
       user: {
         name: "Carregando",
       },
-      userId: localStorage.getItem("userid"),
     };
   },
   computed: {
+    effectiveUserId() {
+      return this.userId || localStorage.getItem("userid");
+    },
     situationClass: function () {
       const situationClassMap = new Map();
       situationClassMap.set("UP_TO_DATE", "has-text-success");
@@ -87,7 +95,7 @@ export default {
   methods: {
     fetchData() {
       userService
-        .getUserData(this.userId)
+        .getUserData(this.effectiveUserId)
         .then((response) => {
           this.setupUser(response);
         })

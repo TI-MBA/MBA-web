@@ -31,21 +31,31 @@ import { presenceService } from "../services/ApiService";
 import moment from "moment";
 
 export default {
+  props: {
+    userId: {
+      type: String,
+      default: null, // optional prop
+    },
+  },
   data() {
     return {
-      userId: localStorage.getItem("userid"),
       presenceList: [],
     };
   },
+  computed: {
+    effectiveUserId() {
+      return this.userId || localStorage.getItem("userid");
+    },
+  },
   created() {
-    if (this.userId) {
+    if (this.effectiveUserId) {
       this.fetchPresence();
     }
   },
   methods: {
     fetchPresence() {
       presenceService
-        .getPresencesBy(this.userId)
+        .getPresencesBy(this.effectiveUserId)
         .then((response) => {
           this.presenceList = response.data;
         })

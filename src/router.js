@@ -1,5 +1,6 @@
 import Login from "./views/Login.vue";
 import MemberHome from "./views/MemberHome.vue";
+import FinaceMemberDetail from "./views/FinanceMemberDetail.vue";
 import EditPassword from "./views/EditPassword.vue";
 import InfoPage from "./views/InfoPage.vue";
 import PresenceInfoPage from "./views/MasteryPresenceInfo.vue";
@@ -44,6 +45,20 @@ const routeInfos = [
     path: "/member-home",
     name: "MemberHome",
     component: MemberHome,
+  },
+  {
+    path: "/member",
+    name: "MemberDetail",
+    component: FinaceMemberDetail,
+    props: (route) => ({
+      userId: route.query.userId || null,
+    }),
+    beforeEnter: (to, from, next) => {
+      if (!to.query.userId) {
+        return next("/");
+      }
+      next();
+    },
   },
   {
     path: "/super-admin",

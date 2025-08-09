@@ -35,6 +35,15 @@ export const paymentService = {
   getPaymentsBy(userId) {
     return api.get(`/payment/user/${userId}`);
   },
+  /**
+   * Add payment for a specific user.
+   */
+  addPayment(payment) {
+    return api.post("/payment", payment);
+  },
+  delete(paymentId) {
+    return api.delete(`payment/${paymentId}`);
+  },
 };
 
 export const presenceService = {
@@ -47,6 +56,12 @@ export const presenceService = {
 };
 
 export const userService = {
+  /**
+   * Retrieve all users.
+   */
+  getAll() {
+    return api.get("/user");
+  },
   /**
    * Retrieve detailed information for a specific user.
    */

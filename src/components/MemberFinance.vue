@@ -2,7 +2,7 @@
   <div class="content">
     <div class="container padding-horizontal">
       <div v-for="payment in paymentList" :key="payment.id">
-        <PaymentCard :payment="payment" />
+        <PaymentCard :payment="payment" :isAdmin="this.isAdmin" />
       </div>
     </div>
     <br />
@@ -21,29 +21,42 @@ import { paymentService } from "../services/ApiService";
 import PaymentCard from "./PaymentCard.vue";
 
 export default {
+  props: {
+    userId: {
+      type: String,
+      default: null,
+    },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
+  },
   components: {
     PaymentCard,
   },
   created() {
-    if (this.userId) {
+    if (this.effectiveUserId) {
       this.progressVisibility = "";
       this.fetchPayments();
     }
   },
   data() {
     return {
-      userId: localStorage.getItem("userid"),
       showDialog: false,
       selectedPayment: {},
       paymentList: [],
       progressVisibility: "is-hidden",
     };
   },
-  computed: {},
+  computed: {
+    effectiveUserId() {
+      return this.userId || localStorage.getItem("userid");
+    },
+  },
   methods: {
     fetchPayments() {
       paymentService
-        .getPaymentsBy(this.userId)
+        .getPaymentsBy(this.effectiveUserId)
         .then((response) => {
           this.paymentList = this.order(response.data);
           this.progressVisibility = "is-hidden";
