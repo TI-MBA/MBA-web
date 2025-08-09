@@ -6,10 +6,9 @@ import PresenceInfoPage from "./views/MasteryPresenceInfo.vue";
 import SuperAdminHome from "./views/SuperAdminHome.vue";
 import AdminFinanceHome from "./views/AdminFinanceHome.vue";
 import AdminRollCallHome from "./views/AdminRollCallHome.vue";
-import { UserLevels } from "./utils/userLevels";
+import { UserLevels, getUserAdminLevel } from "./utils/userLevels";
 import { createRouter, createWebHistory } from "vue-router";
 
-let userAdminLevel = Number(localStorage.getItem("user_type"));
 const routeInfos = [
   {
     path: "/login",
@@ -20,7 +19,7 @@ const routeInfos = [
     path: "/",
     name: "Home",
     beforeEnter: (to, from, next) => {
-      switch (userAdminLevel) {
+      switch (getUserAdminLevel()) {
         case UserLevels.ROLE_USER:
           next("/member-home");
           break;
@@ -28,10 +27,10 @@ const routeInfos = [
           next("/super-admin");
           break;
         case UserLevels.ROLE_FINANCE:
-          next("/super-admin");
+          next("/finance-home");
           break;
         case UserLevels.ROLE_ROLL_CALL:
-          next("/super-admin");
+          next("/roll-call-home");
           break;
         case UserLevels.ROLE_MASTERY:
           next("/presence-info");
@@ -51,7 +50,7 @@ const routeInfos = [
     name: "SuperAdminHome",
     component: SuperAdminHome,
     beforeEnter: (to, from, next) => {
-      if (userAdminLevel == UserLevels.ROLE_ADMIN) {
+      if (getUserAdminLevel() == UserLevels.ROLE_ADMIN) {
         next();
       } else {
         next("/");
@@ -63,6 +62,7 @@ const routeInfos = [
     name: "AdminFinanceHome",
     component: AdminFinanceHome,
     beforeEnter: (to, from, next) => {
+      let userAdminLevel = getUserAdminLevel();
       if (
         userAdminLevel == UserLevels.ROLE_FINANCE ||
         userAdminLevel == UserLevels.ROLE_ADMIN
@@ -78,6 +78,7 @@ const routeInfos = [
     name: "AdminRollCallHome",
     component: AdminRollCallHome,
     beforeEnter: (to, from, next) => {
+      let userAdminLevel = getUserAdminLevel();
       if (
         userAdminLevel == UserLevels.ROLE_ROLL_CALL ||
         userAdminLevel == UserLevels.ROLE_ADMIN
@@ -93,7 +94,7 @@ const routeInfos = [
     name: "PresenceInfo",
     component: PresenceInfoPage,
     beforeEnter: (to, from, next) => {
-      if (userAdminLevel > UserLevels.ROLE_USER) {
+      if (getUserAdminLevel() > UserLevels.ROLE_USER) {
         next();
       } else {
         next("/");
@@ -105,7 +106,7 @@ const routeInfos = [
     name: "EditPassword",
     component: EditPassword,
     beforeEnter: (to, from, next) => {
-      if (userAdminLevel > UserLevels.ROLE_USER) {
+      if (getUserAdminLevel() > UserLevels.ROLE_USER) {
         next("/");
       } else {
         next();

@@ -5,3 +5,7 @@ export const UserLevels = {
   ROLE_ROLL_CALL: 3,
   ROLE_MASTERY: 4,
 };
+
+export function getUserAdminLevel() {
+  return Number(localStorage.getItem("user_type"));
+}

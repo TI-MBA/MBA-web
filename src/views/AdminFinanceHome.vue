@@ -1,12 +1,17 @@
 <template>
   <div>
-    <div class="title has-text-grey is-5">Bem vindo admin finanças</div>
+    <Navbar />
+    <div class="hero-body p-5">Bem vindo admin finanças</div>
   </div>
 </template>
 
 <script>
+import Navbar from "../components/Navbar.vue";
+
 export default {
-  components: {},
+  components: {
+    Navbar,
+  },
   created() {},
   mounted() {
     window.scrollTo(0, 0);
