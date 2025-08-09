@@ -1,28 +1,94 @@
 <template>
   <div>
     <Navbar />
-    <div class="hero-body p-5">Bem vindo admin finanças</div>
+    <section class="section">
+      <div class="hero-body p-5">
+        <h1 class="title has-text-centered mb-4">Admin fiscal</h1>
+        <div
+          class="field is-flex is-justify-content-center mb-5"
+          style="max-width: 600px; margin: 0 auto"
+        >
+          <div class="control is-expanded">
+            <input
+              class="input is-medium"
+              type="text"
+              placeholder="Filtrar membros"
+              v-model="searchQuery"
+            />
+          </div>
+        </div>
+
+        <MemberList
+          :members="filteredMembers"
+          @member-clicked="handleMemberClick"
+        />
+        <progress
+          class="progress is-small is-info"
+          max="100"
+          v-bind:class="progressVisibility"
+        >
+          50%
+        </progress>
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
 import Navbar from "../components/Navbar.vue";
+import MemberList from "../components/FinanceMemberList.vue";
+import { userService } from "../services/ApiService";
 
 export default {
   components: {
     Navbar,
+    MemberList,
   },
-  created() {},
+  created() {
+    this.progressVisibility = "";
+    this.fetchMemberList();
+  },
   mounted() {
     window.scrollTo(0, 0);
   },
   data() {
-    return {};
+    return {
+      searchQuery: "",
+      progressVisibility: "is-hidden",
+      members: [],
+    };
   },
-  computed: {},
+  computed: {
+    filteredMembers() {
+      if (!this.searchQuery) return this.members;
+      const query = this.searchQuery.toLowerCase();
+      return this.members.filter(
+        (m) =>
+          m.name.toLowerCase().includes(query) ||
+          m.instrument.toLowerCase().includes(query) ||
+          m.situation.toLowerCase().includes(query)
+      );
+    },
+  },
   methods: {
-    FinanceButtonDidPress() {},
-    rollCallButtonDidPress() {},
+    fetchMemberList() {
+      userService
+        .getAll()
+        .then((response) => {
+          this.members = response.data.filter(
+            (item) => !item.name.toLowerCase().includes("admin")
+          );
+          this.progressVisibility = "is-hidden";
+        })
+        .catch((err) => {
+          if (err.response) {
+            this.progressVisibility = "is-hidden";
+          }
+        });
+    },
+    handleMemberClick(member) {
+      this.$router.push({ path: "member", query: { userId: member.id } });
+    },
   },
 };
 </script>

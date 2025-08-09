@@ -2,7 +2,7 @@
   <div>
     <Navbar />
 
-    <MemberInfo />
+    <MemberInfo :userId="effectiveUserId" />
     <hr />
     <div class="tabs is-large is-fullwidth">
       <ul>
@@ -15,8 +15,14 @@
       </ul>
     </div>
 
-    <MemberPresence v-bind:class="memberPresenceVisibility" />
-    <MemberFinance v-bind:class="memberFinanceVisibility" />
+    <MemberPresence
+      :userId="effectiveUserId"
+      v-bind:class="memberPresenceVisibility"
+    />
+    <MemberFinance
+      :userId="effectiveUserId"
+      v-bind:class="memberFinanceVisibility"
+    />
   </div>
 </template>
 
@@ -43,7 +49,16 @@ export default {
       frequencyTabClass: "",
     };
   },
+  props: {
+    userId: {
+      type: String,
+      default: null,
+    },
+  },
   computed: {
+    effectiveUserId() {
+      return this.userId || localStorage.getItem("userid");
+    },
     memberPresenceVisibility: function () {
       return this.frequencyTabClass != "" ? "" : "is-hidden";
     },
