@@ -75,9 +75,10 @@ export default {
       userService
         .getAll()
         .then((response) => {
-          this.members = response.data.filter(
-            (item) => !item.name.toLowerCase().includes("admin")
-          );
+          this.members = response.data.filter((item) => {
+            const name = item.name.toLowerCase();
+            return !name.includes("admin") && !name.includes("deletado");
+          });
           this.progressVisibility = "is-hidden";
         })
         .catch((err) => {
