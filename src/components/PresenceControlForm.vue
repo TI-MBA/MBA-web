@@ -142,7 +142,7 @@
 
 <script>
 import ExpandableCard from "./ExpandableCard.vue";
-import api from "../services/api";
+import { rehearsalService } from "../services/ApiService";
 import Datepicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 import moment from "moment";
@@ -195,14 +195,12 @@ export default {
       return moment(date).format("YYYY-MM-DD");
     },
     fetch() {
-      api
-        .get("/rehearsal-info/rehearsal-presence-count", {
-          params: {
-            initialDate: this.toRequest(this.startDate),
-            finalDate: this.toRequest(this.endDate),
-            percentage: this.percentageValue,
-          },
-        })
+      rehearsalService
+        .getRehearsalInfo(
+          this.toRequest(this.startDate),
+          this.toRequest(this.endDate),
+          this.percentageValue
+        )
         .then((response) => {
           this.membersResult = response.data.userCountDtos.filter(function (
             member

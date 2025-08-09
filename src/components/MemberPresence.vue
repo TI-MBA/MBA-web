@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import api from "../services/api";
+import { presenceService } from "../services/ApiService";
 import moment from "moment";
 
 export default {
@@ -44,8 +44,8 @@ export default {
   },
   methods: {
     fetchPresence() {
-      api
-        .get("/presence/user/" + this.userId)
+      presenceService
+        .getPresencesBy(this.userId)
         .then((response) => {
           this.presenceList = response.data;
         })
