@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import api from "../services/api";
+import { userService } from "../services/ApiService";
 
 export default {
   created() {
@@ -86,8 +86,8 @@ export default {
   },
   methods: {
     fetchData() {
-      api
-        .get("/user/" + this.userId)
+      userService
+        .getUserData(this.userId)
         .then((response) => {
           this.setupUser(response);
         })

@@ -72,7 +72,7 @@
 </template>
 <script>
 import Navbar from "../components/Navbar.vue";
-import api from "../services/api";
+import { authService } from "../services/ApiService";
 
 export default {
   components: {
@@ -112,12 +112,8 @@ export default {
       }
     },
     fetchEditPassword() {
-      api
-        .put("/user/changePassword", {
-          email: this.email,
-          password: this.currentPassword,
-          newPassword: this.newPassword,
-        })
+      authService
+        .editPassword(this.email, this.currentPassword, this.newPassword)
         .then((response) => {
           if (response.status >= 200 && response.status <= 299) {
             this.showResultAlert("Senha alterada com sucesso", true);

@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import api from "../services/api";
+import { paymentService } from "../services/ApiService";
 import PaymentCard from "./PaymentCard.vue";
 
 export default {
@@ -42,8 +42,8 @@ export default {
   computed: {},
   methods: {
     fetchPayments() {
-      api
-        .get("/payment/user/" + this.userId)
+      paymentService
+        .getPaymentsBy(this.userId)
         .then((response) => {
           this.paymentList = this.order(response.data);
           this.progressVisibility = "is-hidden";

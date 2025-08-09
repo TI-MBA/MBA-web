@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import api from "../services/api";
+import { authService } from "../services/ApiService";
 
 export default {
   data() {
@@ -91,11 +91,8 @@ export default {
       }
     },
     executeLoginRequest() {
-      api
-        .post("/user/signin", {
-          email: this.email,
-          password: this.password,
-        })
+      authService
+        .login(this.email, this.password)
         .then((response) => {
           if (response.status >= 200 && response.status <= 299) {
             this.isLoading(false);
