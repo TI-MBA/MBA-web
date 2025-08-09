@@ -5,7 +5,7 @@
     aria-label="main navigation"
   >
     <div class="navbar-brand">
-      <a class="navbar-item" @click="redirectToPages">
+      <a class="navbar-item" @click="goToHome">
         <h2 id="name">Home</h2>
       </a>
 
@@ -65,17 +65,14 @@ export default {
     toggleBurgerMenu() {
       document.querySelector("#nav-links").classList.toggle("is-active");
     },
-    goToMemberHome() {
+    goToHome() {
       this.$router.push("/");
     },
     goToEditPassword() {
-      this.$router.push("/editPassowrd");
+      this.$router.push("/edit-password");
     },
     goToInfoPage() {
       this.$router.push("/info");
-    },
-    goToMaesteryPresenceInfo() {
-      this.$router.push("/presence-info");
     },
     addPaymentAction() {
       console.log("go to add payment what will be implemented");
@@ -97,11 +94,6 @@ export default {
       } else {
         return "";
       }
-    },
-    redirectToPages: function () {
-      return this.isMaesteryAdmin
-        ? this.goToMaesteryPresenceInfo
-        : this.goToMemberHome;
     },
   },
 };
