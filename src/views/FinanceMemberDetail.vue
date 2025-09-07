@@ -3,7 +3,25 @@
     <Navbar />
     <MemberInfo :userId="this.userId" />
     <hr />
-    <MemberFinance :userId="this.userId" :isAdmin="true" />
+    <div class="tabs is-large is-fullwidth">
+      <ul>
+        <li v-bind:class="financeTabClass">
+          <a @click="financeTabDidPress">Financeiro</a>
+        </li>
+        <li v-bind:class="frequencyTabClass">
+          <a @click="frequencyTabDidPress">Frequência</a>
+        </li>
+      </ul>
+    </div>
+    <MemberFinance
+      :userId="this.userId"
+      :isAdmin="true"
+      v-bind:class="memberFinanceVisibility"
+    />
+    <MemberPresence
+      :userId="this.userId"
+      v-bind:class="memberPresenceVisibility"
+    />
     <FloatingActionButton :onClickAction="showDialog" />
 
     <PaymentFormDialog
@@ -19,6 +37,7 @@
 import Navbar from "../components/Navbar.vue";
 import MemberInfo from "../components/MemberInfo.vue";
 import MemberFinance from "../components/MemberFinance.vue";
+import MemberPresence from "../components/MemberPresence.vue";
 import FloatingActionButton from "../components/FloatingActionButton.vue";
 import PaymentFormDialog from "../components/PaymentFormDialog.vue";
 
@@ -27,6 +46,7 @@ export default {
     Navbar,
     MemberInfo,
     MemberFinance,
+    MemberPresence,
     FloatingActionButton,
     PaymentFormDialog,
   },
@@ -35,7 +55,11 @@ export default {
     window.scrollTo(0, 0);
   },
   data() {
-    return { dialogVisible: false };
+    return {
+      financeTabClass: "is-active",
+      frequencyTabClass: "",
+      dialogVisible: false,
+    };
   },
   props: {
     userId: {
@@ -43,7 +67,14 @@ export default {
       required: true,
     },
   },
-  computed: {},
+  computed: {
+    memberPresenceVisibility: function () {
+      return this.frequencyTabClass != "" ? "" : "is-hidden";
+    },
+    memberFinanceVisibility: function () {
+      return this.financeTabClass != "" ? "" : "is-hidden";
+    },
+  },
   methods: {
     showDialog() {
       this.dialogVisible = true;
@@ -53,6 +84,14 @@ export default {
     },
     handlePaymentSubmit() {
       this.$router.go();
+    },
+    financeTabDidPress() {
+      this.financeTabClass = "is-active";
+      this.frequencyTabClass = "";
+    },
+    frequencyTabDidPress() {
+      this.financeTabClass = "";
+      this.frequencyTabClass = "is-active";
     },
   },
 };
