@@ -1,0 +1,10 @@
+// Cloudflare Workers static-assets configuration for the MBA web app (built by `npm run build` into dist/).
+{
+  "name": "mba-web",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    // Vue Router uses HTML5 history mode: unknown paths must serve index.html so page reloads work
+    "not_found_handling": "single-page-application"
+  }
+}
